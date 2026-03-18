@@ -10,11 +10,13 @@ const pending = ref(false)
 const errorMessage = ref('')
 const infoMessage = ref('')
 
-await initAuth()
+onMounted(async () => {
+  await initAuth()
 
-if (import.meta.client && user.value) {
-  await navigateTo('/dashboard')
-}
+  if (user.value) {
+    await navigateTo('/dashboard')
+  }
+})
 
 async function submit() {
   pending.value = true
