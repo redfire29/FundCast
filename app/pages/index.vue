@@ -6,7 +6,8 @@ const appConfig = useRuntimeConfig()
 
 const setupItems = [
   '在 Supabase 建立 campaigns、donation_events、integrations 三張表',
-  '於 Vercel 設定 SUPABASE_URL、SUPABASE_SERVICE_ROLE_KEY、NUXT_PUBLIC_APP_URL',
+  '於 Vercel 設定 SUPABASE_URL、SUPABASE_SERVICE_ROLE_KEY、NUXT_PUBLIC_SUPABASE_ANON_KEY、NUXT_PUBLIC_APP_URL',
+  '使用 /login 與 /dashboard 建立登入後台與 campaign 建立流程',
   '用 /api/public/campaigns 與 /api/public/overlay/:token 提供網站與 OBS 資料',
   '第二階段再補 YouTube OAuth 與綠界 callback 寫入 donation_events'
 ]
@@ -24,10 +25,11 @@ const setupItems = [
           </p>
 
           <div class="button-row">
-            <a class="button primary" href="#campaigns">看預覽</a>
+            <NuxtLink class="button primary" to="/dashboard">進入後台</NuxtLink>
             <a class="button secondary" href="https://vercel.com/new" target="_blank" rel="noreferrer">
               部署到 Vercel
             </a>
+            <a class="button secondary" href="#campaigns">看預覽</a>
           </div>
         </div>
 

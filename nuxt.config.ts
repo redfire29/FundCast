@@ -4,10 +4,12 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
   runtimeConfig: {
-    supabaseUrl: '',
-    supabaseServiceRoleKey: '',
+    supabaseUrl: process.env.SUPABASE_URL || '',
+    supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
     public: {
-      appUrl: 'http://localhost:3000'
+      appUrl: process.env.NUXT_PUBLIC_APP_URL || 'http://localhost:3000',
+      supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '',
+      supabaseAnonKey: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY || ''
     }
   },
   nitro: {

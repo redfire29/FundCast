@@ -2,6 +2,7 @@ create extension if not exists pgcrypto;
 
 create table if not exists campaigns (
   id uuid primary key default gen_random_uuid(),
+  owner_user_id uuid references auth.users(id) on delete set null,
   slug text not null unique,
   overlay_token text not null unique,
   name text not null,
@@ -64,3 +65,5 @@ values (
   'active'
 )
 on conflict (slug) do nothing;
+
+alter table campaigns add column if not exists owner_user_id uuid references auth.users(id) on delete set null;
