@@ -193,6 +193,9 @@ onMounted(async () => {
             </div>
 
             <div class="dashboard-card__links">
+              <NuxtLink class="button secondary" :to="`/dashboard/campaigns/${campaign.id}`">
+                編輯活動
+              </NuxtLink>
               <a class="button secondary" :href="`/overlay/${campaign.overlay_token}`" target="_blank" rel="noreferrer">
                 開 overlay
               </a>
