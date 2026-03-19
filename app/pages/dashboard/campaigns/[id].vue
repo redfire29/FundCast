@@ -18,6 +18,13 @@ interface EditableCampaign {
   updated_at: string
 }
 
+const statusOptions = [
+  { value: 'draft', label: '草稿' },
+  { value: 'active', label: '進行中' },
+  { value: 'paused', label: '已暫停' },
+  { value: 'completed', label: '已完成' }
+]
+
 const route = useRoute()
 const campaignId = computed(() => String(route.params.id || ''))
 
@@ -128,10 +135,9 @@ onMounted(() => {
           <label class="field">
             <span>活動狀態</span>
             <select v-model="form.status">
-              <option value="draft">draft</option>
-              <option value="active">active</option>
-              <option value="paused">paused</option>
-              <option value="completed">completed</option>
+              <option v-for="option in statusOptions" :key="option.value" :value="option.value">
+                {{ option.label }}
+              </option>
             </select>
           </label>
 

@@ -18,6 +18,13 @@ interface DashboardCampaign {
   updated_at: string
 }
 
+const statusLabels: Record<string, string> = {
+  draft: '草稿',
+  active: '進行中',
+  paused: '已暫停',
+  completed: '已完成'
+}
+
 const { user, signOut, initAuth } = useAuth()
 
 const campaigns = ref<DashboardCampaign[]>([])
@@ -184,7 +191,7 @@ onMounted(async () => {
                 <h3>{{ campaign.name }}</h3>
                 <p>{{ campaign.headline }}</p>
               </div>
-              <span class="dashboard-card__status">{{ campaign.status }}</span>
+              <span class="dashboard-card__status">{{ statusLabels[campaign.status] || campaign.status }}</span>
             </div>
 
             <div class="chip-list">
