@@ -13,6 +13,10 @@ const infoMessage = ref('')
 onMounted(async () => {
   await initAuth()
 
+  if (route.query.verified === '1') {
+    infoMessage.value = '信箱驗證完成，現在可以直接登入。'
+  }
+
   if (user.value) {
     await navigateTo('/dashboard')
   }
@@ -34,7 +38,7 @@ async function submit() {
   }
 
   if (mode.value === 'signup' && !data.session) {
-    infoMessage.value = '註冊成功，請先到信箱完成驗證，再回來登入。'
+    infoMessage.value = '註冊成功，請到信箱點擊驗證連結。驗證完成後會自動回到站上。'
     return
   }
 

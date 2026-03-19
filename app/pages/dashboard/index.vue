@@ -24,6 +24,7 @@ const campaigns = ref<DashboardCampaign[]>([])
 const loading = ref(true)
 const saving = ref(false)
 const errorMessage = ref('')
+const successMessage = ref('')
 
 const form = reactive({
   name: '',
@@ -43,6 +44,10 @@ async function loadCampaigns() {
   }
   catch (error) {
     errorMessage.value = error instanceof Error ? error.message : '無法載入 campaign。'
+
+    if (error && typeof error === 'object' && 'statusCode' in error && Number(error.statusCode) === 401) {
+      await navigateTo('/login')
+    }
   }
   finally {
     loading.value = false
@@ -52,6 +57,7 @@ async function loadCampaigns() {
 async function createCampaign() {
   saving.value = true
   errorMessage.value = ''
+  successMessage.value = ''
 
   try {
     const response = await useAuthorizedApi<{ campaign: DashboardCampaign }, typeof form>(
@@ -63,6 +69,7 @@ async function createCampaign() {
     )
 
     campaigns.value = [response.campaign, ...campaigns.value]
+    successMessage.value = 'Campaign 建立成功，下面已經可以直接打開 overlay 與 API。'
     form.name = ''
     form.headline = ''
     form.description = ''
@@ -148,6 +155,7 @@ onMounted(async () => {
           </div>
 
           <p v-if="errorMessage" class="notice notice--error">{{ errorMessage }}</p>
+          <p v-if="successMessage" class="notice notice--info">{{ successMessage }}</p>
 
           <button class="button primary" :disabled="saving">
             {{ saving ? '建立中...' : '建立活動' }}

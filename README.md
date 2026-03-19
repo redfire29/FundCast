@@ -72,7 +72,10 @@ If `SUPABASE_URL` or `SUPABASE_SERVICE_ROLE_KEY` are missing, the app automatica
 1. Open `Authentication`.
 2. Enable the `Email` provider.
 3. Turn on email/password sign-in.
-4. Create your first user from the app at `/login`.
+4. In `URL Configuration`, set:
+   - `Site URL` = `https://fund-cast.vercel.app`
+   - `Redirect URLs` should include `https://fund-cast.vercel.app/auth/callback`
+5. Create your first user from the app at `/login`.
 
 ## Existing projects upgrade
 
@@ -104,6 +107,7 @@ https://your-project.vercel.app/overlay/ovl_demo_shelter
 
 - `/` landing page with campaign preview
 - `/login` sign in / sign up
+- `/auth/callback` email confirmation callback
 - `/dashboard` create and manage your own campaigns
 - `/overlay/:token` overlay preview for OBS Browser Source
 - `/api/public/campaigns` list campaigns
@@ -117,3 +121,12 @@ https://your-project.vercel.app/overlay/ovl_demo_shelter
 3. Add campaign edit pages and integration settings.
 4. Encrypt third-party credentials before storing them in `integrations`.
 5. Add unique public embed pages for iframe use.
+
+## Current manual test flow
+
+1. Open `/login` and sign up with a new email.
+2. Click the confirmation link in the email.
+3. Confirm you land on `/auth/callback`, see a success state, and are redirected back to `/login` or `/dashboard`.
+4. Sign in and open `/dashboard`.
+5. Create a campaign.
+6. Open the generated overlay and API links from the dashboard list.
