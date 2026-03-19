@@ -84,10 +84,20 @@ export async function listCampaignPreviews() {
     .limit(12)
 
   if (campaignError || !campaigns) {
+    console.error('Supabase campaigns query failed', {
+      message: campaignError?.message,
+      details: campaignError?.details,
+      hint: campaignError?.hint,
+      code: campaignError?.code
+    })
     throw createError({
       statusCode: 500,
-      statusMessage: 'Unable to load campaigns from Supabase.'
+      statusMessage: `Unable to load campaigns from Supabase. ${campaignError?.message || 'Unknown campaigns query error.'}`
     })
+  }
+
+  if (campaigns.length === 0) {
+    return []
   }
 
   const campaignIds = campaigns.map((campaign) => campaign.id)
@@ -98,9 +108,15 @@ export async function listCampaignPreviews() {
     .eq('status', 'confirmed')
 
   if (donationError || !donations) {
+    console.error('Supabase donation_events query failed', {
+      message: donationError?.message,
+      details: donationError?.details,
+      hint: donationError?.hint,
+      code: donationError?.code
+    })
     throw createError({
       statusCode: 500,
-      statusMessage: 'Unable to load donation events from Supabase.'
+      statusMessage: `Unable to load donation events from Supabase. ${donationError?.message || 'Unknown donation query error.'}`
     })
   }
 
