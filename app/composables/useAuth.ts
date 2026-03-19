@@ -1,6 +1,7 @@
 import type { Session, User } from '@supabase/supabase-js'
 
 export function useAuth() {
+  const config = useRuntimeConfig()
   const user = useState<User | null>('auth-user', () => null)
   const session = useState<Session | null>('auth-session', () => null)
   const ready = useState<boolean>('auth-ready', () => false)
@@ -8,6 +9,10 @@ export function useAuth() {
 
   function getSupabase() {
     return useSupabaseClient()
+  }
+
+  function getEmailRedirectUrl() {
+    return `${config.public.appUrl.replace(/\/$/, '')}/auth/callback`
   }
 
   async function refreshSession() {
@@ -47,7 +52,13 @@ export function useAuth() {
 
   async function signUp(email: string, password: string) {
     const supabase = getSupabase()
-    return supabase.auth.signUp({ email, password })
+    return supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: getEmailRedirectUrl()
+      }
+    })
   }
 
   async function signOut() {
